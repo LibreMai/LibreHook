@@ -1,0 +1,135 @@
+﻿greeting: "WELCOME TO USE THIS TOOL"
+
+# 杂项
+misc:
+  moduleName: "Misc"
+  enable: true
+  # 重载配置按钮
+  # keycode参考https://docs.unity3d.com/ScriptReference/KeyCode.html
+  reloadKey: "Alpha5"
+  fixParticle: true # 修复烟花特效不正常的问题（仅在onProgramStart-singlePlayer开启时有效）
+  eventOverride: true # 区域全解
+
+# 网络功能（包括地址、路由、请求以及响应）
+netPack:
+  moduleName: "NetPack"
+  enable: true
+  debugRequest: true # 打印请求
+  debugResponse: true # 打印响应
+  debugUrl: true # 打印Url
+  overrideBaseUrl: "" # 覆寫TitleSerer地址，空串为不覆写，例（https://example.com:8443/Maimai2Servlet/
+  
+  # 以下功能为兼容aqua而写, 如果不使用aqua, 则设置为 false, 并将后两项正则设置为空
+  # 禁用加盐混淆与加解密
+  disableObEnc: true
+  # 以下内容均在 overrideBaseUrl 之后再执行
+  removeSuffixRegex: ""  # 删除 uri 内容正则
+  removeUrlRegex: "https://" # # 删除 url 内容正则, 有些游戏在返回地址结果会多加一个 https://, 需要删除
+  
+# 启动时执行功能
+onProgramStart:
+  enable: true
+  moduleName: "OnProgramStart"
+  probeAllSensitive: true # 嗅探所有敏感字段
+  singlePlayer: false # 单人模式
+
+
+# 规避各项检查
+bypassCheck:
+  moduleName: "ByPassCheck"
+  enable: true
+  magicNumber: 1024 # 环境检查，如果对 Assembly-CSharp 不熟悉，不要修改
+  disableIniFileClear: true # 如果游戏会使用 Clear() 来禁用 iniFile，设置为 true 可以恢复正常读取 mai2.ini 文件
+  forceAsServer: true # 强制让游戏为服务端，覆写segatool注入字段
+  forceIgnoreError: true  # 忽略比mai2.ini中配置的更多的错误
+  keepCredits: 24 # 将点数保持在某个值，小于等于0则禁用
+  waitTime: 250 # 等待时间，单位毫秒
+  disableMaintenance: true # 禁用维护时间
+  disableAutoReboot: true # 禁止自动重启
+  forceEnableQuickRetry: true # 启动快速重开（4567）
+  fixQuickRetryFastLateBug: true # 1.30快速重开会累计fast/late, 设置为 true 修复该 bug
+  rewriteTitleRouterConfigLog: -1 # 国服1.31会检查店铺路由是否更新，修改此项为1则为已更新，-1为不hook
+  bypassCheckServerHash: true # 绕过 TLS 检查
+
+# 判定调整
+judgeOverride:
+  moduleName: "JudgeOverride"
+  enable: true
+  offsetA: -0.05 # 全局A判添加/减少（可以为任意±小数）
+  offsetB: 0.40 # 全局B判添加/减少（可以为任意±小数）
+  musicVolume: 0.8 # 背景音乐音量大小倍率
+  wasapiExclusive: true # 使用 wasapi 独占模式
+  touchPanelDelay: 9 # 增加内屏延迟 单位ms(int)
+
+# 非稳定工具，建议仅在调试时使用
+overridePowerOn:
+  moduleName: "OverridePowerOn"
+  enable: true
+  overrideAllNetIsGood: true  # 强制返回 All.net 状态为好
+  overrideNetworkTest: true # 覆写网络测试为好
+  dumpPowerOnProcess: false # 加载 PowerOn 后转储内存
+
+# 摄像头参数覆写
+cameraHook:
+  moduleName: "CameraHook"
+  enable: false
+  playerPhotoCameraScanQR: true # 启用玩家摄像头扫码（开启hookCameraInitialize之后可关闭该功能）
+  skipWebCamTextureInitLimit: false # 取消所有WebCamTexture的初始化限制（开启hookCameraInitialize之后可关闭该功能）
+  fixQRCodeScanResLimit: false  # 修复二维码扫描识别错位（使扫码摄像头支持16：9或任意比例）
+  hookCameraInitialize: true # 自定义初始化摄像头函数（用于摄像头数量多于2个的场景）
+  showCamerasList: true # 在初始化时展示所有摄像头及其索引
+  specifyCameraPhoto: 1 # 指定拍摄照片所用摄像头（设置-1则使用第一个可用的摄像头）
+  specifyCameraChime: 0 # 指定扫描二维码照片所用摄像头（设置-1则使用第一个可用的摄像头）
+  selfCheckMilliSeconds: 3000 # 指定每个摄像头进行自检的时间（建议设置为1000的倍数）
+
+# 网络配置，单位 ms / 次
+netConfigOverride:
+  moduleName: "NetConfigOverride"
+  enable: true
+  filterUnCompressed: true # 修复游戏存在随机未压缩数据的bug
+
+# 恢复游戏被删输入
+inputRestore:
+  moduleName: "InputRestore"
+  enable: true
+  restoreDebugInput: true # 恢复Debug输入
+
+# 恢复AutoPlay
+autoPlay:
+  moduleName: "AutoPlay"
+  enable: true
+
+  # 使用按键切换是否 autoplay，如果为""则常开autoplay
+  # keycode参考https://docs.unity3d.com/ScriptReference/KeyCode.html
+  switchKey: "Home"
+
+  # 使用该功能时，务必将判定调整为 1 开头的判定，例如 1-A 1-B 等
+  # 如果要fc，则至少在prefect、great、good之中有个参数是100
+
+  # FC例子:
+  # perfectRate: 随意
+  # criticalRate: 随意
+  # greatRate: 随意
+  # goodRate: 100
+
+  # FC+例子:
+  # perfectRate: 随意
+  # criticalRate: 随意
+  # greatRate: 100
+  # goodRate: 随意
+
+  # prefect概率
+  perfectRate: 100
+  # 如果是prefect了，那么其中有多少是大P
+  criticalRate: 60
+
+  # 在prefect判定之外，还有多少概率是great
+  greatRate: 0
+  # 在prefect、good判定之外，还有多少概率是good，如果都没判定上，则是miss
+  goodRate: 100
+
+  # 如果不是大P，那么还有多少概率是fast，剩下则late
+  fastRate: 50
+  
+  # 如果不是大P，有多少概率是100落
+  perfect2ndRate: 30
